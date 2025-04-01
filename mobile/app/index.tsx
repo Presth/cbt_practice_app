@@ -1,5 +1,4 @@
-import { router } from "expo-router";
-import { Text, View, Pressable } from "react-native";
+import { View } from "react-native";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import FirstScreen from "./(onboarding)/firstScreen";
 import { useFonts } from "expo-font";
@@ -36,9 +35,5 @@ export default function Index() {
       </View>
     );
   }
-  return (
-    <View>
-      <Text>index</Text>
-    </View>
-  );
+  return <SignIn />;
 }

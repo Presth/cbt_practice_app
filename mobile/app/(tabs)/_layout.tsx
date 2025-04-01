@@ -5,7 +5,21 @@ import { Text, View } from "react-native";
 
 function TabsLayout() {
   return (
-    <Tabs>
+    <Tabs
+      screenOptions={{
+        tabBarStyle: {
+          backgroundColor: "#ffffff", // Custom background color
+          height: 70, // Adjust height
+          borderTopWidth: 0, // Remove border
+        },
+        tabBarLabelStyle: {
+          fontSize: 14,
+          fontWeight: "bold",
+        },
+        tabBarActiveTintColor: "black", // Active tab color
+        tabBarInactiveTintColor: "#aaa", // Inactive tab color
+      }}
+    >
       <Tabs.Screen
         name="home"
         options={{
@@ -14,8 +28,8 @@ function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <FontAwesome
               name="home"
-              size={24}
-              color={focused ? "red" : "blue"}
+              size={28}
+              color={focused ? "#000" : "#aaa"}
             />
           ),
         }}
@@ -23,8 +37,15 @@ function TabsLayout() {
       <Tabs.Screen
         name="account"
         options={{
+          headerShown: false,
           title: "Account",
-          tabBarIcon: () => <FontAwesome name="user" size={24} />,
+          tabBarIcon: ({ focused }) => (
+            <FontAwesome
+              name="user"
+              size={24}
+              color={focused ? "#111" : "#aaa"}
+            />
+          ),
         }}
       />
     </Tabs>
