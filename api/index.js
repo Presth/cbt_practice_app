@@ -1,45 +1,23 @@
 import express from "express";
 import dotenv from "dotenv";
 import { WebSocketServer } from "ws";
-import { db } from "./config/db.js";
+
+// middleware imports
 import { errorHandler } from "./config/error-handling.js";
-import AuthRouter from "./shared/routes/auth.js";
+import setupSwagger from "./swagger/index.js";
+import Routes from "./routes/index.js";
 
-import swaggerJSDoc from "swagger-jsdoc";
-import swaggerUI from "swagger-ui-express";
-
+// server setup
 const server = express();
-
 dotenv.config();
 
-const PORT = process.env.PORT || 8000;
-
-// swagger ui setup
-const options = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "CBT Application API",
-      version: "1.0.0",
-      description: "API documentation for my the cbt app",
-    },
-    servers: [
-      {
-        url: "http://localhost:" + PORT, // Change to your actual server URL
-      },
-    ],
-  },
-  apis: ["./*/routes/*.js"], // Path to the API routes
-};
-
-const swaggerSpec = swaggerJSDoc(options);
-
 // server middleware
-server.use("/api", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
-server.use("/api/auth/", AuthRouter);
-
+server.use("/api", Routes);
+setupSwagger(server);
 server.use(errorHandler);
 
+// ACTIVATE SERVER
+const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
