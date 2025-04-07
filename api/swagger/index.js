@@ -10,7 +10,7 @@ const options = {
     info: {
       title: "CBT Application API",
       version: "1.0.0",
-      description: "API documentation for my the cbt app",
+      description: "API documentation for the cbt practice app",
     },
     servers: [
       {

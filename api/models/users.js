@@ -34,8 +34,8 @@ const User = sequelize.define("User", {
   },
 });
 
-// User.sync()
-//   .then(() => console.log("User table created"))
-//   .catch((err) => console.log("Error creating User table:", err));
+User.sync()
+  .then(() => console.log("User table created"))
+  .catch((err) => console.log("Error creating User table:", err));
 
 export default User;

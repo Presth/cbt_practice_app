@@ -11,6 +11,8 @@ import Routes from "./routes/index.js";
 const server = express();
 dotenv.config();
 
+server.use(express.json());
+server.use(express.urlencoded({ extended: true }));
 // server middleware
 server.use("/api", Routes);
 setupSwagger(server);
