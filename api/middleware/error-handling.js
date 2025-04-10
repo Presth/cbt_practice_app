@@ -1,4 +1,4 @@
-import { UniqueConstraintError } from "sequelize";
+import { UniqueConstraintError, ValidationError } from "sequelize";
 
 export const errorHandler = (err, req, res, next) => {
   const statusCode = err.status || 500;
@@ -7,7 +7,11 @@ export const errorHandler = (err, req, res, next) => {
   // Log the error (for debugging purposes)
   //   console.error(err.stack);
   if (err instanceof UniqueConstraintError) {
-    return res.status(409).json(err.errors[0].message);
+    return res.status(409).json(getAllError(err.errors));
+  }
+
+  if (err instanceof ValidationError) {
+    return res.status(422).json(getAllError(err.errors));
   }
 
   // Respond with the error message
@@ -19,3 +23,6 @@ export const errorHandler = (err, req, res, next) => {
     },
   });
 };
+
+const getAllError = (errStack) =>
+  errStack.map((err) => err.message.split(".")[1]);

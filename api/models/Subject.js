@@ -2,17 +2,16 @@ import { DataTypes } from "sequelize";
 import sequelize from "./db.js";
 
 const Subject = sequelize.define("Subject", {
-  uuid: {
+  subject_uuid: {
     type: DataTypes.STRING,
     unique: {
       args: true,
-      msg: "UUID already exist",
+      msg: "UUID must be unique",
     },
-  },
-  name: {
-    type: DataTypes.STRING,
     allowNull: false,
+    defaultValue: DataTypes.UUIDV4,
   },
+  name: DataTypes.STRING,
   code: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -21,14 +20,26 @@ const Subject = sequelize.define("Subject", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  max_questionsDelivered: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  enforceNoOfQuestons: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  allowMultipleSession: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
 });
 
-Subject.sync()
-  .then(() => {
-    console.log("Subject table created");
-  })
-  .catch((err) => {
-    console.log("Error creating Subject table:", err);
+Subject.associate = (models) => {
+  Subject.hasMany(models.Questions, {
+    foreignKey: "subject_uuid",
+    as: "questions",
   });
+};
 
 export default Subject;

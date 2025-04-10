@@ -14,10 +14,10 @@
  *             properties:
  *               username:
  *                 type: string
- *                 example: "john_doe"
+ *                 example: "johndoe"
  *               password:
  *                 type: string
- *                 example: "securepassword"
+ *                 example: "password"
  *     responses:
  *       200:
  *         description: Successful login
@@ -54,7 +54,7 @@
  *                      properties:
  *                          username:
  *                              type: string
- *                              example: john doe
+ *                              example: johndoe
  *                          email:
  *                              type: string
  *                              example: johndoe@email.com

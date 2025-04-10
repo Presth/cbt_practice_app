@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import User from "../../models/users.js";
+import User from "../../models/Users.js";
 import { Op } from "sequelize";
 
 export const login = async (req, res) => {
@@ -18,9 +18,20 @@ export const login = async (req, res) => {
 
   if (!user) return res.status(403).json("Invalid credentials");
   const verifyPassword = bcrypt.compareSync(password, user.password);
-  if (!verifyPassword) return res.status(403).json("Invalid credentials");
-  const token = jwt.sign(JSON.stringify(user), process.env.JWT_SECRET);
-  res.status(200).json({ message: "Login success", token });
+  if (!verifyPassword) {
+    return res.status(403).json("Invalid credentials");
+  } else {
+    let { student_uuid, regNo, username, email, role, fullname } = user;
+    const token = jwt.sign(
+      JSON.stringify({ student_uuid, regNo, username, email, role, fullname }),
+      process.env.JWT_SECRET
+    );
+
+    res
+      .status(200)
+      .cookie("token", token)
+      .json({ message: "Login success", token });
+  }
 };
 
 export const createAccount = async (req, res) => {
@@ -33,6 +44,8 @@ export const createAccount = async (req, res) => {
 
   const createUser = await User.create({ username, email, password: hash });
 
-  console.log(createUser);
+  if (!createUser) {
+    return next(new Error("User not createed"));
+  }
   res.status(200).json({ message: "Account created" });
 };

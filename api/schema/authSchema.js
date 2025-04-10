@@ -6,7 +6,9 @@ export const loginSchema = z.object({
 });
 
 export const createAccountSchema = z.object({
-  username: z.string(),
+  username: z.string().optional(),
+  regNo: z.string().optional(),
+  fullName: z.string().optional(),
   password: z.string().min(8, "Password must be at least 8 characters long"),
   email: z.string().email("Invalid email address"),
 });

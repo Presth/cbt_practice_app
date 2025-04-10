@@ -1,8 +1,19 @@
 import { DataTypes } from "sequelize";
 import sequelize from "./db.js";
+import { USER } from "../utils/typesDef.js";
 
 // Define a User model
 const User = sequelize.define("User", {
+  student_uuid: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+    defaultValue: DataTypes.UUIDV4,
+  },
+  regNo: {
+    type: DataTypes.STRING,
+    unique: true,
+  },
   fullname: {
     type: DataTypes.STRING,
   },
@@ -22,7 +33,6 @@ const User = sequelize.define("User", {
       msg: "Email address already exist",
     },
   },
-
   password: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -32,10 +42,17 @@ const User = sequelize.define("User", {
     allowNull: false,
     defaultValue: "user",
   },
+  privileges: {
+    type: DataTypes.JSON,
+  },
+  status: {
+    type: DataTypes.STRING,
+    defaultValue: USER.ACTIVE,
+  },
+  verified: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
 });
-
-User.sync()
-  .then(() => console.log("User table created"))
-  .catch((err) => console.log("Error creating User table:", err));
 
 export default User;
